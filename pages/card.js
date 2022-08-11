@@ -15,7 +15,7 @@ function UserCardDetail(props) {
 
 export default function UserCard(props) {
     const [show, setShow] = useState(false);
-    return (<div className="border-bottom">
+    return (<div className="border-bottom" onClick={() => setShow(!show)}>
         <div className="d-flex align-items-center p-3">
             <img
                 src={props.image}
@@ -26,8 +26,8 @@ export default function UserCard(props) {
             />
             <span className="text-center display-6 me-auto">{props.name}</span>
             {(show) ?
-                < IconChevronUp onClick={() => setShow(!show)} /> :
-                <IconChevronDown onClick={() => setShow(!show)} />
+                <IconChevronUp /> :
+                <IconChevronDown />
             }
         </div>
         {(show) ?
