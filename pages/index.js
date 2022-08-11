@@ -1,13 +1,27 @@
-import {
-  IconChevronDown,
-  IconChevronUp,
-  IconMailForward,
-  IconMapPins,
-} from "@tabler/icons";
+import { useRef, useState } from "react";
+import UserCard from "./card";
+import axios from "axios";
 
 export default function Home() {
+  const [users, setUsers] = useState([]);
+  const inputValue = useRef();
   const genUsers = async () => {
-    const resp = await axios.get(`https://randomuser.me/api/`);
+    if (inputValue.current.value <= 0) {
+      alert('Invalid number of user');
+      return;
+    }
+    const resp = await axios.get(`https://randomuser.me/api/?results=${inputValue.current.value}`);
+    const users = resp.data.results.map(result => {
+      return {
+        image: result.picture.large,
+        name: `${result.name.first} ${result.name.last}`,
+        email: result.email,
+        address: `${result.location.city} ${result.location.state} ${result.location.country} ${result.location.postcode}`
+      }
+    })
+    setUsers(users.map((user, index) => {
+      return <UserCard key={index} image={user.image} name={user.name} email={user.email} address={user.address} />
+    }))
   };
 
   return (
@@ -24,55 +38,17 @@ export default function Home() {
           className="form-control text-center"
           style={{ maxWidth: "100px" }}
           type="number"
+          ref={inputValue}
+          defaultValue={1}
         />
-        <button class="btn btn-dark" onClick={() => genUsers()}>
+        <button className="btn btn-dark" onClick={() => genUsers()}>
           Generate
         </button>
       </div>
-
-      {/* Example of folded UserCard */}
-      <div className="border-bottom">
-        {/* main section */}
-        <div className="d-flex align-items-center p-3">
-          <img
-            src="/profile-placeholder.jpeg"
-            width="90px"
-            class="rounded-circle me-4"
-          />
-          <span className="text-center display-6 me-auto">Name...</span>
-          <IconChevronDown />
-        </div>
-
-        {/* UserCardDetail is hidden */}
-      </div>
-
-      {/* Example of expanded UserCard */}
-      <div className="border-bottom">
-        {/* main section */}
-        <div className="d-flex align-items-center p-3">
-          <img
-            src="/profile-placeholder.jpeg"
-            width="90px"
-            class="rounded-circle me-4"
-          />
-          <span className="text-center display-6 me-auto">Name...</span>
-          <IconChevronUp />
-        </div>
-
-        {/* UserCardDetail*/}
-        <div className="text-center">
-          <p>
-            <IconMailForward /> Email...
-          </p>
-          <p>
-            <IconMapPins /> Address...
-          </p>
-        </div>
-      </div>
-
+      {users}
       {/* made by section */}
       <p className="text-center mt-3 text-muted fst-italic">
-        made by Chayanin Suatap 12345679
+        made by Perapol Pamoonchaer 640610655
       </p>
     </div>
   );
