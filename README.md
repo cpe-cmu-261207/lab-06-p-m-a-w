@@ -16,4 +16,4 @@ npm run dev
 ให้นศ.ศึกษาวิธีการ build ได้ใน slide
 และสุดท้ายให้ deploy ใน [CMU Personal Webhosting](https://register-myweb.cmu.ac.th/)
 
-http://myweb.cmu.ac.th/perapol_p/lab0660066006600660/
+https://codesandbox.io/s/peaceful-zeh-sd7vrl
